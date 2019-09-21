@@ -5,24 +5,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  def new
-    super
-    # binding.pry
-    if session["devise.facebook_data"]
-      # binding.pry
-      resource.email = session["devise.facebook_data"]['info']['email']
-      resource.nickname = session["devise.facebook_data"]['info']['name']
-    end
-  end
+  # def new
+  #   super
+  # end
 
   # POST /resource
   def create
-    if params[:sns_auth] == 'true'
+    if session["devise.omniauth_data"]
       pass = Devise.friendly_token
       params[:user][:password] = pass
       params[:user][:password_confirmation] = pass
     end
     super
+  end
+
+  def add_basic
+
   end
 
   # GET /resource/edit
