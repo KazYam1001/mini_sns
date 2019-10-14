@@ -4,12 +4,38 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
-  # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  # メアド登録のビュー表示
+  def new_profile
 
-  # POST /resource
+  end
+
+  # メアド登録のcreate
+  def create_profile
+    redirect_to new_sms_path
+  end
+
+  # SMSのビュー表示
+  def new_sms
+
+  end
+
+  # SMSのcreate
+  def create_sms
+    redirect_to new_address_path
+  end
+
+  # 住所登録のビュー表示
+  def new_address
+
+  end
+
+  # addressのcreate
+  def create_address
+    redirect_to new_card_path
+  end
+
+  # cards#createからリダイレクトしてくる
+  # session全てsaveする
   def create
     if session["devise.omniauth_data"]
       pass = Devise.friendly_token
@@ -17,10 +43,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       params[:user][:password_confirmation] = pass
     end
     super
-  end
-
-  def add_basic
-
   end
 
   # GET /resource/edit

@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   # associations
   has_many :sns_credentials
+  has_one  :profile
 
   def self.from_omniauth(auth)
     # authのproviderとuidを使ってsns_credentialのレコードを取得or保存する
