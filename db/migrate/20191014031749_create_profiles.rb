@@ -4,8 +4,8 @@ class CreateProfiles < ActiveRecord::Migration[5.2]
       t.string :first_name, null: false
       t.string :last_name, null: false
       t.date :birthday, null: false
-      t.integer :phone_number, null: false
-      t.integer :postal_code, null: false
+      t.string :phone_number, null: false
+      t.string :postal_code, null: false
       t.string :city, null: false
       t.string :block, null: false
       t.string :building

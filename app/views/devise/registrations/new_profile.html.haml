@@ -1,1 +1,36 @@
 new_profile
+
+%div
+  - if @user.errors.any?
+    - @user.errors.full_messages.each do |message|
+      %p= message
+  = form_with model: @user, url: reg_profile_path, local: true do |f|
+    .form-field
+      = f.label :nickname, 'ニックネーム'
+      = f.text_field :nickname
+    .form-field
+      = f.label :email, 'メールアドレス'
+      = f.text_field :email
+    .form-field
+      = f.label :password, 'パスワード'
+      = f.text_field :password, autocomplete: "new-password"
+    .form-field
+      = f.label :password_confirmation, 'パスワード(確認)'
+      = f.text_field :password_confirmation, autocomplete: "new-password"
+    .profile-field
+      ここからprofile
+      - if @user.profile.errors.any?
+        - @user.profile.errors.full_messages.each do |message|
+          %p= message
+
+      = f.fields_for :profile do |p|
+        .form-field
+          = p.label :first_name, '姓'
+          = p.text_field :first_name
+        .form-field
+          = p.label :last_name, '名'
+          = p.text_field :last_name
+        .form-field
+          = p.label :birthday, '誕生日'
+          = p.date_select :birthday, start_year: 1950, end_year: 2019
+    = f.submit

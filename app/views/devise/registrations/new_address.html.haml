@@ -1,1 +1,25 @@
 new_address
+%div
+  - if @profile.errors.any?
+    - @profile.errors.full_messages.each do |message|
+      %p= message
+  = form_with model: @profile, url: reg_address_path, local: true do |f|
+    .form-field
+      = f.label :first_name, '姓'
+      = f.text_field :first_name
+    .form-field
+      = f.label :last_name, '名'
+      = f.text_field :last_name
+    .form-field
+      = f.label :postal_code, '郵便番号'
+      = f.text_field :postal_code, maxlength: 8
+    .form-field
+      = f.label :city, '都道府県'
+      = f.text_field :city
+    .form-field
+      = f.label :block, '市区町村'
+      = f.text_field :block
+    .form-field
+      = f.label :building, '番地'
+      = f.text_field :building
+    = f.submit

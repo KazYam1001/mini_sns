@@ -8,6 +8,10 @@ class User < ApplicationRecord
   # associations
   has_many :sns_credentials
   has_one  :profile
+  accepts_nested_attributes_for :profile
+
+  # validation
+  validates :nickname, presence: true
 
   def self.from_omniauth(auth)
     # authのproviderとuidを使ってsns_credentialのレコードを取得or保存する
