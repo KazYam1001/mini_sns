@@ -16,6 +16,7 @@ $(document).on('turbolinks:load', function(){
       if (status === 200) {
         // handle token object and send back to your server. You can get token id from "response.id".
         console.log(response)
+        alert('トークン発行に成功しました')
         $('#number').removeAttr('name');
         $('#_exp_month_2i').removeAttr('name');
         $('#exp_year').removeAttr('name');
@@ -24,9 +25,10 @@ $(document).on('turbolinks:load', function(){
         $('#new_card').append(`<input type=hidden name=payjp_token value=${response.id}>`);
         $('#new_card').submit();
       } else {
-        $('#card_submit').prop('disabled', false);
         // handle error like displaying error message.
         console.log(response)
+        alert('トークン発行に失敗しました')
+        $('#card_submit').prop('disabled', false);
       };
     });
   })

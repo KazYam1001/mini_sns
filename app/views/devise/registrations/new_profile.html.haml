@@ -33,4 +33,5 @@
         .form-field
           = p.label :birthday, '誕生日'
           = p.date_select :birthday, start_year: 1950, end_year: 2019
+    = recaptcha_tags
     = f.submit

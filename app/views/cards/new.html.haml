@@ -1,7 +1,7 @@
 - if register?
-  新規登録から
+  新規登録から来たよ
 - else
-  サイドバーとかベタ打ち
+  サイドバーとかベタ打ちで来たよ
 %h2 cards#new
 = form_with url: cards_path, id: 'new_card', local: true do |f|
   - if register?

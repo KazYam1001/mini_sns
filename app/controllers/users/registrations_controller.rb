@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  prepend_before_action :check_captcha, only: [:create_profile]
 
   # メアド登録のビュー表示
   def new_profile
@@ -117,6 +118,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def address_params
     params.require(:profile).permit(:first_name, :last_name, :postal_code, :city, :block, :building)
+  end
+
+  def check_captcha
+    @user = User.new(profile_params)
+    @user.valid?
+    @user.profile.valid?(:new_profile)
+    unless verify_recaptcha(model: resource)
+      render :new_profile
+    end
   end
 
   # If you have extra params to permit, append them to the sanitizer.
