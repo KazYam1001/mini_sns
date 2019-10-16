@@ -11,8 +11,9 @@ Rails.application.routes.draw do
     post 'users/sms' => 'users/registrations#create_sms', as: :reg_sms
     get 'users/new_address' => 'users/registrations#new_address', as: :new_address
     post 'users/address' => 'users/registrations#create_address', as: :reg_address
+    get 'users/complete' => 'users/registrations#complete', as: :complete_registration
   end
 
-  resources :cards, only: %i[ new create ]
+  resources :cards, only: %i[ index new create ]
   resources :users, only: :new
 end

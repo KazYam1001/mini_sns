@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   # associations
   has_many :sns_credentials
+  has_many :cards
   has_one  :profile
   accepts_nested_attributes_for :profile
 

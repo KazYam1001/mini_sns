@@ -1,6 +1,9 @@
+%h2 users#index
 - if user_signed_in?
   = "#{current_user.nickname}でログイン中"
   = link_to 'ログアウト', destroy_user_session_path, method: :delete
+  %section
+    = link_to 'カード登録', cards_path
 - else
   ログインしていません
   = link_to '新規登録', new_user_path
