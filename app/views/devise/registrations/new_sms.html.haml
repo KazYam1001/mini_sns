@@ -1,0 +1,10 @@
+%h2 users/registrations#new_sms
+%div
+  - if @profile.errors.any?
+    - @profile.errors.full_messages.each do |message|
+      %p= message
+  = form_with model: @profile, url: reg_sms_path, local: true do |f|
+    .form-field
+      = f.label :phone_number, '電話番号'
+      = f.text_field :phone_number, maxlength: 13
+    = f.submit

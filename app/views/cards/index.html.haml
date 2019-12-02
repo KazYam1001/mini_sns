@@ -1,0 +1,5 @@
+%h2 cards#index
+= "#{current_user.nickname}でログイン中です"
+= link_to 'トップページへ', root_path
+%section
+  = link_to 'カードを登録する', new_card_path

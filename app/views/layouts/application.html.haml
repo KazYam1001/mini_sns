@@ -5,6 +5,8 @@
     %title MiniSns
     = csrf_meta_tags
     = csp_meta_tag
+    %script{:crossorigin => "anonymous", :integrity => "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=", :src => "https://code.jquery.com/jquery-3.4.1.min.js"}
+    %script{:src => "https://js.pay.jp/", :type => "text/javascript"}
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body

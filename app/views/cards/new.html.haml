@@ -1,0 +1,19 @@
+- if register?
+  新規登録から来たよ
+- else
+  サイドバーとかベタ打ちで来たよ
+%h2 cards#new
+= form_with url: cards_path, id: 'new_card', local: true do |f|
+  - if register?
+    = hidden_field_tag :register, true
+  .form-field
+    = f.label :number, 'カード番号'
+    = f.text_field :number, value: '4242424242424242', minlength: 16, maxlength: 16, required: true
+  .form-field
+    = f.label :exp, '有効期限'
+    = f.date_select :exp_month, name: 'exp_month', discard_year: true, discard_day: true, use_month_numbers: true
+    = f.select :exp_year, { "19": 2019, "20": 2020, "21": 2021, "22": 2022, "23": 2024,"25": 2025,}
+  .form-field
+    = f.label :cvc, 'セキュリティコード'
+    = f.text_field :cvc, value: '123', minlength: 3, maxlength: 4, required: true
+  = f.submit id: 'card_submit'
