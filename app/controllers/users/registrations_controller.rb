@@ -7,18 +7,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # メアド登録のビュー表示
   def new_profile
-    session['devise.regist_data'] = nil
     @user = User.new
     @user.build_profile
+    if session['devise.omniauth_data']
+      @user.email = session['devise.omniauth_data']['info']['email']
+      @user.nickname = session['devise.omniauth_data']['info']['name']
+    end
   end
 
   # メアド登録のcreate
   def create_profile
+    if session['devise.omniauth_data']
+      password = Devise.friendly_token
+      params[:user][:password] = password
+      params[:user][:password_confirmation] = password
+    end
     @user = User.new(profile_params)
     if @user.valid? && @user.profile.valid?(:new_profile)
       session['devise.regist_data'] = {user: @user.attributes}
-      session["devise.regist_data"][:encrypted_password] = nil
-      session["devise.regist_data"][:user][:password] = params[:user][:password]
+      session['devise.regist_data'][:encrypted_password] = nil
+      session['devise.regist_data'][:user][:password] = params[:user][:password]
       session['devise.regist_data'][:profile] = @user.profile
       redirect_to new_sms_path
     else
@@ -60,22 +68,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # sessionの情報からuserとprofileのインスタンスを作成する
     @user = User.new(session['devise.regist_data']['user'])
     @user.build_profile(session['devise.regist_data']['profile'])
-    if @user.save!
+    if @user.save
+      if session['devise.omniauth_data']
+        @user.sns_credentials.create(
+          provider: session['devise.omniauth_data']['provider'],
+          uid: session['devise.omniauth_data']['uid']
+        )
+      end
       sign_up(resource_name, resource)
       respond_with resource, location: after_sign_up_path_for(resource)
     else
 
     end
   end
-
-  # def create
-  #   if session["devise.omniauth_data"]
-  #     pass = Devise.friendly_token
-  #     params[:user][:password] = pass
-  #     params[:user][:password_confirmation] = pass
-  #   end
-  #   super
-  # end
 
   # GET /resource/edit
   # def edit

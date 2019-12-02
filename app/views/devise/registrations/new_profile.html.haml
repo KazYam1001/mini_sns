@@ -11,12 +11,13 @@
     .form-field
       = f.label :email, 'メールアドレス'
       = f.text_field :email
-    .form-field
-      = f.label :password, 'パスワード'
-      = f.text_field :password, autocomplete: "new-password"
-    .form-field
-      = f.label :password_confirmation, 'パスワード(確認)'
-      = f.text_field :password_confirmation, autocomplete: "new-password"
+    - unless session["devise.omniauth_data"]
+      .form-field
+        = f.label :password, 'パスワード'
+        = f.text_field :password, autocomplete: "new-password"
+      .form-field
+        = f.label :password_confirmation, 'パスワード(確認)'
+        = f.text_field :password_confirmation, autocomplete: "new-password"
     .profile-field
       ここからprofile
       - if @user.profile.errors.any?

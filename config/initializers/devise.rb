@@ -4,8 +4,13 @@
 # Many of these configuration options can be set straight in your model.
 OmniAuth.config.allowed_request_methods = [:post]
 Devise.setup do |config|
-  config.omniauth :facebook,ENV['FACEBOOK_CLIENT_ID'],ENV['FACEBOOK_CLIENT_SECRET'], info_fields: 'name, email, first_name, last_name, gender'
-  config.omniauth :google_oauth2,ENV['GOOGLE_CLIENT_ID'],ENV['GOOGLE_CLIENT_SECRET']
+  config.omniauth :facebook,
+                  Rails.application.credentials.dig(:facebook, :client_id),
+                  Rails.application.credentials.dig(:facebook, :client_secret),
+                  info_fields: 'name, email, first_name, last_name, gender'
+  config.omniauth :google_oauth2,
+                  Rails.application.credentials.dig(:google, :client_id),
+                  Rails.application.credentials.dig(:google, :client_secret)
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.

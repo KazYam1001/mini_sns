@@ -1,6 +1,6 @@
 module ApplicationHelper
   def register?
-    return true if request.referer.match(/.+users\/address/)
+    return true if request.referer.match(/.+users\/new_address/)
 
     false
   end
