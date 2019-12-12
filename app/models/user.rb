@@ -23,6 +23,11 @@ class User < ApplicationRecord
       nickname: auth.info.name,
       email: auth.info.email
     )
+    # 以前に登録したユーザーがSNS認証した場合、ここでuser_idを入れる
+    if user.persisted? && sns.id.nil?
+      sns.user = user
+      sns.save
+    end
     user
   end
 

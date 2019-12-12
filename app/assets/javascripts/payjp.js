@@ -1,6 +1,5 @@
 $(document).on('turbolinks:load', function(){
   Payjp.setPublicKey('pk_test_9ebaca48cfe1eb60058d9d0a');
-  console.log(1)
 
   $('#card_submit').on('click', e => {
     e.preventDefault();
