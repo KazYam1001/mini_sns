@@ -4,9 +4,10 @@
 # 導入
 ```
 git clone https://github.com/KazYam1001/mini_sns.git
+cd mini_sns
 bundle
-bundle exec rails db:create
-bundle exec rails db:migrate
+rails db:create
+rails db:migrate
 
 EDITOR='vim' rails credentials:edit
 ```
@@ -27,6 +28,10 @@ payjp.jsも公開キーを自分のものと置き換える。
 
 # できること
 - Facebook認証、Google認証
+  - Userモデル,Profileモデル,SnsCredentialモデル,users/omniauth_callbacks_controller
 - sessionを使ったユーザー登録
+  - users/registrations_controller
+  - ユーザー登録時にバリデーション付きのrecaptcha
 - payjpを使ったクレカ登録機能
+  - Cardモデル,cards_controller,payjp.js
   - cards#new で直前のアクションを判定しビューを切り替える機能
