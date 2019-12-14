@@ -17,13 +17,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # メアド登録のcreate
   def create_profile
-    if session['devise.omniauth_data']
-      password = Devise.friendly_token
-      params[:user][:password] = password
-      params[:user][:password_confirmation] = password
-    end
+    # sns認証ならdeviseのメソッドでPWをparamsにセットする
+    set_password_by_devise if session['devise.omniauth_data']
     @user = User.new(profile_params)
-    if @user.valid? && @user.profile.valid?(:new_profile)
+    if @user.valid? && @user.profile.valid?(:new_profile) # Profileモデルの:new_profile用バリデーションを呼ぶ
       session['devise.regist_data'] = {user: @user.attributes}
       session['devise.regist_data'][:encrypted_password] = nil
       session['devise.regist_data'][:user][:password] = params[:user][:password]
@@ -43,7 +40,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # SMSのcreate
   def create_sms
     @profile = Profile.new(sms_params)
-    if @profile.valid?(:new_sms)
+    if @profile.valid?(:new_sms) # Profileモデルの:new_sms用バリデーションを呼ぶ
       session['devise.regist_data']['profile'][:phone_number] = @profile.phone_number
       redirect_to new_address_path
     else
@@ -62,6 +59,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create_address
     # 入力内容のチェック
     @profile = Profile.new(address_params)
+     # Profileモデルの:new_address用バリデーションを呼ぶ
     render :new_address and return unless @profile.valid?(:new_address)
     # profile用のsessionにaddress入力分を追加する
     session['devise.regist_data']['profile'].merge!(address_params)
@@ -126,12 +124,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def check_captcha
+    set_password_by_devise  if session['devise.omniauth_data']
     @user = User.new(profile_params)
     @user.valid?
     @user.profile.valid?(:new_profile)
     unless verify_recaptcha(model: resource)
       render :new_profile
     end
+  end
+
+  def set_password_by_devise
+    password = Devise.friendly_token
+    params[:user][:password] = password
+    params[:user][:password_confirmation] = password
   end
 
   # If you have extra params to permit, append them to the sanitizer.
